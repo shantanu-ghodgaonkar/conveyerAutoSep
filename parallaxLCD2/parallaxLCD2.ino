@@ -11,11 +11,20 @@ void setup () {
   lcd.setup();
   lcd.backLightOn();
   lcd.empty();
+  Serial.begin(9600);
 }
 void loop () {
+  Serial.println("LCD SETUP BEGIN");
+  lcd.setup();
+  lcd.backLightOn();
+  lcd.empty();
+  Serial.println("LCD COMMS STARTED");
   delay(1000);
   lcd.print("Scanned Barcode: ");
   lcd.print("212-11219");
   delay(3000);
-  lcd.empty();
+  // lcd.empty();
+  lcd.end();
+  Serial.println("LCD COMMS ENDED");
+  delay(3000);
 }

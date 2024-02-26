@@ -27,15 +27,16 @@ Servo botServo; // Declare bottom servo
 Servo topServo; // Declare top servo
 long distance = 0; // Variable to store output of PING sensor in cm
 String barcode = "NONE";  // Variable to store scanned barcode
+String tempBarcode = "NONE"; // Variable to store temporarily scanned barcode for comparison
+unsigned long startMillis = 0; // Variable to store the millis() when scanBarcode() is called
+unsigned long interval = 4000; // Variable to store the interval for which the barcode is to be switched on
+unsigned long currentMillis = 0; // Variable to store the current value of millis() to check how long the barcode scanner has been switched on for
 
 void setup() {
   botServo.attach(BOTSERVO); // Attach bottom servo to pin 9
   topServo.attach(TOPSERVO); // Attach top servo to pin 10
   botServo.write(BOTSERVOHOME); // Set bottom servo to home configuration
   topServo.write(TOPSERVOHOME); // Set top servo to home configuration
-  lcd.setup(); // setup LCD
-  lcd.backLightOn(); // Switch on LCD backlight
-  lcd.empty(); // Clear LCD Screen
   pinMode(DCMRELAY, OUTPUT); // Set DC motor Relay pin as output
   digitalWrite(DCMRELAY, HIGH); // Switch on DC motor
   Serial.begin(9600); // Start serial communication
@@ -45,13 +46,10 @@ void setup() {
 void loop() {
   lcd.empty(); // Clear LCD Screen
   distance = runPINGSensor(); // Get PING Sensor reading
-  // Serial.print("CM = ");
-  // Serial.println(distance);
   if(distance < 10){ // If distance is less than 10 cm, package is in postion to be scanned
     digitalWrite(DCMRELAY, LOW); // Switch off motor; switch on barcode scanner
-    // barcode = scanBarcode(); // Scan barcode
-    lcd.print("Scanned Barcode: "); // Display scanned barcode on LCD
-    lcd.print(barcode);
+    scanBarcode(); // Scan barcode
+    lcdDisplayBarcode(); // Display scanned barcode on LCD
     digitalWrite(DCMRELAY, HIGH); // Switch on DC motor; switch off barcode scanner
     delay(1000); // Wait for package to fall on turntable
     if(barcode.substring(0,3) == "212") botServo.write(BOTSERVOHOME - SERVOOFFSET); // Check for first area and rotate servos accordingly
@@ -81,13 +79,32 @@ long runPINGSensor() { // This function is responsible to get sensordata from PI
   return pulseIn(PINGSENSOR, HIGH) / 29 / 2;
 }
 
-String scanBarcode() { // This function is responsible to get the scanned barcode in string form
-  barcodeScanner.begin(115200);
-  if (barcodeScanner.available()) // Check if there is Incoming Data in the Serial Buffer.
-  { Serial.println("Barcode scanner has data!");
-    while (barcodeScanner.available()) // Keep reading Byte by Byte from the Buffer till the Buffer is empty
-    {return barcodeScanner.readString();}
+void scanBarcode() { // This function is responsible to get the scanned barcode in string form
+  startMillis = millis(); // Note the time at which this fucntion is called
+  barcodeScanner.begin(9600);
+  currentMillis = millis(); // Initialise this variable appropriately so that the while loop can be entered
+  while(currentMillis - startMillis < interval){ // Check how much time has passed and whether it is less than the chosen interval
+    currentMillis = millis(); // Note current time elapsed
+    if (barcodeScanner.available()) // Check if there is Incoming Data in the Serial Buffer.
+    { Serial.println("Barcode scanner has data!"); 
+      while (barcodeScanner.available()) // Keep reading Byte by Byte from the Buffer till the Buffer is empty
+      {tempBarcode = barcodeScanner.readString();} // Store current read barcode in a temporary variable
+    }
+    if(tempBarcode != barcode) { // Check if same barcode has not been read twice
+      barcode = tempBarcode; // Update barcode variable
+      break; // Exit while loop
+    }
   }
-  barcodeScanner.end();
+  Serial.println(barcode); // Print read barcode
+  barcodeScanner.end(); // End serial communication
+}
+
+void lcdDisplayBarcode() {
+  lcd.setup(); // setup LCD
+  lcd.backLightOn(); // Switch on LCD backlight
+  lcd.empty(); // Clear LCD Screen
+  lcd.print("Scanned Barcode: "); // Display scanned barcode on LCD
+  lcd.print(barcode);
+  lcd.end();
 }
 
