@@ -20,7 +20,7 @@ void setup() {
 
 }
 const int botHome = 90;
-const int topHome = 94;
+const int topHome = 105;
 
 void loop() {
   // for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
@@ -43,8 +43,11 @@ void loop() {
 
   botServo.write(botHome); // HOME
   topServo.write(topHome); // HOME
-
+  // delay(1000);
+  // botServo.write(botHome+30);
+  // topServo.write(topHome-5);
   delay(1000);
+
 
   botServo.write(botHome-30); // LEFT SIDE ACTUATION
 

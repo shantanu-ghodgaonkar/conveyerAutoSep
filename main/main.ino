@@ -78,7 +78,12 @@ void lcdDisplayBarcode() {
   lcd.setup(); // setup LCD
   lcd.backLightOn(); // Switch on LCD backlight
   lcd.empty(); // Clear LCD Screen
-  lcd.print("Scanned Barcode: "); // Display scanned barcode on LCD
+  // lcd.print("Scanned Barcode: "); // Display scanned barcode on LCD
+  // lcd.print(barcode);
+  if(barcode.substring(0,3) == "212") lcd.print("MANHATTAN");
+  else if (barcode.substring(0,3) == "929") lcd.print("QUEENS"); // Check for second area and rotate servos accordingly
+  else if (barcode.substring(0,3) == "718") lcd.print("BROOKLYN"); // Check for third area and rotate servos accordingly
+  lcd.cr();
   lcd.print(barcode);
   delay(1500);
   lcd.end();
@@ -110,6 +115,8 @@ void loop() {
     delay(1000); // Allow 1s of delay for package to fall into right box
     botServo.write(BOTSERVOHOME); // Bring bottom servo back to home
     topServo.write(TOPSERVOHOME); // Bring top servo back to home
+    barcode = "NONE";
+    tempBarcode = "NONE";
   }
 }
 
