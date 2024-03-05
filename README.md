@@ -35,6 +35,8 @@ Arduino Uno Microcontroller: The project's core, chosen for its compact size and
 1D/2D Barcode Scanner (Waveshare): Reads 1D/2D barcodes accurately and efficiently.
 Operational Mechanism:
 
+<br/><img src='/qr.png'>
+
 Address Detection: The barcode scanner reads package addresses as they pass through the scanning point.
 Arduino Uno Control: The Arduino processes scanned information, interpreting the package's destination.
 Conveyor Mechanism: A DC motor, controlled by Arduino, actuates the conveyor. Upon address detection, the Arduino commands servo motors to guide the package towards the designated bin.
