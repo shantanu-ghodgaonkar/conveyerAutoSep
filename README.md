@@ -5,7 +5,7 @@ Abstract:
 
 This project builds an innovative Automatic Package Separator system using Arduino technology. It aims to streamline and enhance the efficiency of package segregation based on their addresses.
 
-[Watch the video](IMG_8251.mp4)
+[Please watch the video by downloading the raw file](IMG_8251.mp4)
 
 
 Key Components:
@@ -64,9 +64,11 @@ Robotics Integration: Explore robots for automated package handling.
 Cascaded Network of Modules: Integrate multiple systems for multilevel sorting.
 This document serves as a comprehensive overview of the Automatic Package Separator project. It details the system design, functionalities, and potential future enhancements.
 
-
+Segregation for Brooklyn-
 <br/><img src='/bklyn.png'>
 
+Segregation for Manhattan-
 <br/><img src='/manh.png'>
 
+Segregation for Queens-
 <br/><img src='/queens.png'>
