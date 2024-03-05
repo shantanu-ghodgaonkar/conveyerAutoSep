@@ -5,6 +5,12 @@ Abstract:
 
 This project builds an innovative Automatic Package Separator system using Arduino technology. It aims to streamline and enhance the efficiency of package segregation based on their addresses.
 
+<video width="320" height="240" controls autoplay>
+  <source src='/IMG_8251.mp4' type='video/mp4'>
+  Your browser does not support the video tag.
+</video>
+
+
 Key Components:
 
 Arduino Microcontroller: Manages the system, integrating various components and enabling communication.
