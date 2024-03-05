@@ -63,3 +63,10 @@ Machine Learning Integration: Optimize sorting algorithms based on data, package
 Robotics Integration: Explore robots for automated package handling.
 Cascaded Network of Modules: Integrate multiple systems for multilevel sorting.
 This document serves as a comprehensive overview of the Automatic Package Separator project. It details the system design, functionalities, and potential future enhancements.
+
+
+<br/><img src='/bklyn.png'>
+
+<br/><img src='/manh.png'>
+
+<br/><img src='/queens.png'>
